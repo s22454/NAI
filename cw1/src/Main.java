@@ -32,8 +32,10 @@ public class Main {
             Scanner scanner1 = new Scanner(trainingFile);
 
             while (scanner1.hasNext()){
-                list.add(scanner.next());
+                list.add(scanner1.next());
             }
+
+            AI ai = new AI(list);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
