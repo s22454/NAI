@@ -36,6 +36,7 @@ public class Main {
             }
 
             AI ai = new AI(list);
+            ai.process();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

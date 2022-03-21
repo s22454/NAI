@@ -25,12 +25,51 @@ public class AI {
             }
         }
 
+//        for (String s : sasiedzi.keySet()){
+//            System.out.print(s + ": ");
+//            for (int i = 0; i < sasiedzi.get(s).size(); i++){
+//                for (Double d : sasiedzi.get(s).get(i))
+//                    System.out.print(d + " | ");
+//            }
+//            System.out.println();
+//        }
+    }
+
+    public void process(){
+        HashMap<String, Double[]> maxMap = new HashMap<>();
+        HashMap<String, Double[]> minMap = new HashMap<>();
+
         for (String s : sasiedzi.keySet()){
-            System.out.print(s + ": ");
+            Double[] max = new Double[sasiedzi.get(s).get(0).size()];
+            Double[] min = new Double[sasiedzi.get(s).get(0).size()];
+
+            for (int i = 0; i < max.length; i++)
+                max[i] = sasiedzi.get(s).get(0).get(i);
+
+            for (int i = 0; i < min.length; i++)
+                min[i] = sasiedzi.get(s).get(0).get(i);
+
+            System.out.println(s + ":");
             for (int i = 0; i < sasiedzi.get(s).size(); i++){
-                for (Double d : sasiedzi.get(s).get(i))
-                    System.out.print(d + " | ");
+
+
+                for (int j = 0; j < sasiedzi.get(s).get(i).size(); j++){
+                    if (sasiedzi.get(s).get(i).get(j) > max[j])
+                        max[j] = sasiedzi.get(s).get(i).get(j);
+
+                    if (sasiedzi.get(s).get(i).get(j) < min[j])
+                        min[j] = sasiedzi.get(s).get(i).get(j);
+                }
             }
+
+            System.out.print("max: ");
+            for (Double d : max)
+                System.out.print(d + " | ");
+
+            System.out.print("\nmin: ");
+            for (Double d : min)
+                System.out.print(d + " | ");
+
             System.out.println();
         }
     }
