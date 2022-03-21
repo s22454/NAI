@@ -26,17 +26,27 @@ public class Main {
         tmp = scanner.nextLine();
 
 
-        ArrayList<String> list = new ArrayList<>();
+        ArrayList<String> trainList = new ArrayList<>();
+        ArrayList<String> testList  = new ArrayList<>();
 
         try {
-            Scanner scanner1 = new Scanner(trainingFile);
+            Scanner scannerTrain    = new Scanner(trainingFile);
+            Scanner scannerTest     = new Scanner(testFile);
 
-            while (scanner1.hasNext()){
-                list.add(scanner1.next());
+            while (scannerTrain.hasNext()){
+                trainList.add(scannerTest.next());
             }
 
-            AI ai = new AI(list);
-            ai.process();
+            while (scannerTest.hasNext()){
+                testList.add(scannerTest.next());
+            }
+
+            AI ai = new AI(trainList);
+
+            System.out.println("\nProcessing ...\n");
+            ai.process(testFile);
+
+            System.out.println("Results:");
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();

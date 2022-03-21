@@ -35,10 +35,11 @@ public class AI {
 //        }
     }
 
-    public void process(){
+    public void process(File file){
         HashMap<String, Double[]> maxMap = new HashMap<>();
         HashMap<String, Double[]> minMap = new HashMap<>();
 
+        //init
         for (String s : sasiedzi.keySet()){
             Double[] max = new Double[sasiedzi.get(s).get(0).size()];
             Double[] min = new Double[sasiedzi.get(s).get(0).size()];
@@ -51,8 +52,6 @@ public class AI {
 
             System.out.println(s + ":");
             for (int i = 0; i < sasiedzi.get(s).size(); i++){
-
-
                 for (int j = 0; j < sasiedzi.get(s).get(i).size(); j++){
                     if (sasiedzi.get(s).get(i).get(j) > max[j])
                         max[j] = sasiedzi.get(s).get(i).get(j);
@@ -71,6 +70,12 @@ public class AI {
                 System.out.print(d + " | ");
 
             System.out.println();
+
+            maxMap.put(s,max);
+            minMap.put(s,min);
         }
+
+        //testing test.txt file
+
     }
 }
