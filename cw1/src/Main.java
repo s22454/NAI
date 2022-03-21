@@ -21,34 +21,32 @@ public class Main {
         File testFile = new File(secondFilePath);
 
 
-        String tmp;
+        String k;
         System.out.print("Podaj k:");
-        tmp = scanner.nextLine();
+        k = scanner.nextLine();
 
 
-        ArrayList<String> trainList = new ArrayList<>();
-        ArrayList<String> testList  = new ArrayList<>();
 
         try {
-            Scanner scannerTrain    = new Scanner(trainingFile);
-            Scanner scannerTest     = new Scanner(testFile);
-
+            Scanner scannerTrain        = new Scanner(trainingFile);
+            ArrayList<String> trainList = new ArrayList<>();
             while (scannerTrain.hasNext()){
-                trainList.add(scannerTest.next());
+                trainList.add(scannerTrain.next());
             }
 
+            Scanner scannerTest         = new Scanner(testFile);
+            ArrayList<String> testList  = new ArrayList<>();
             while (scannerTest.hasNext()){
                 testList.add(scannerTest.next());
             }
 
+            //training AI
             AI ai = new AI(trainList);
 
-            System.out.println("\nProcessing ...\n");
-            ai.process(testFile);
+            System.out.println("\nProcessing ...");
+            ai.process(testList, Integer.parseInt(k));
 
-            System.out.println("Results:");
-
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
