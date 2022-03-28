@@ -18,7 +18,7 @@ public class Perceptron {
         this.threshold          = threshold;
     }
 
-    public void train(String path, double accuracyGoal){
+    public void train(String path, double accuracyGoal) throws ArrayIndexOutOfBoundsException{
         double accuracy = 0.0;
         int goodAnswares;
         int vectorLength = 0;
@@ -62,7 +62,7 @@ public class Perceptron {
         while(accuracy < accuracyGoal){
             goodAnswares = learn();
             accuracy = goodAnswares / (double) data.size();
-            System.out.println("Przejscie " + i + " dokladnosc - " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
+            System.out.println("Przejscie " + i + " dokladnosc: " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
             i++;
         }
 
@@ -76,7 +76,7 @@ public class Perceptron {
         for (int j = 0; j < wieghts.length; j++)
             System.out.println("W" + (j + 1) + " - " + wieghts[j]);
         System.out.println("Finalna dokladnosc: " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
-        System.out.println("Ilosc przejsc potrzebna do nauczenia: " + i);
+        System.out.println("Ilosc przejsc potrzebna do nauczenia: " + (i - 1));
         System.out.println("---------------------------------------------");
     }
 
@@ -98,8 +98,11 @@ public class Perceptron {
         return goodAnswares;
     }
 
-    private int process(Double[] data){
+    public int process(Double[] data) throws NullPointerException{
         double sum = 0;
+
+        if (data.length != wieghts.length)
+            throw new NullPointerException();
 
         for (int i = 0; i < wieghts.length; i++)
             sum += wieghts[i] * data[i];
@@ -109,4 +112,40 @@ public class Perceptron {
         else
             return 0;
     }
+
+    public void test(String path) throws NullPointerException{
+        double goodAnswares    = 0;
+        double dataLength      = 0;
+
+        try(Scanner scanner = new Scanner(new File(path))) {
+            while (scanner.hasNext()){
+                String rowData = scanner.nextLine();
+                String[] cells = rowData.split(",");
+                Double[] dataTab = new Double[wieghts.length];
+                dataLength++;
+
+                if (cells.length != (wieghts.length + 1))
+                    throw new NullPointerException();
+
+                for (int i = 0; i < cells.length - 1; i++)
+                    dataTab[i] = Double.parseDouble(cells[i]);
+
+                int ans = process(dataTab);
+                if (resOptions[ans].equals(cells[cells.length - 1])) goodAnswares++;
+
+                System.out.println("Testowanie: " + rowData);
+                System.out.println("Odpowiedz poprawna: " + cells[cells.length - 1]);
+                System.out.println("Odpowiedz perceptronu: " + resOptions[ans]);
+                System.out.println("Czy byla poprawna: " + ((resOptions[ans].equals(cells[cells.length - 1])) ? "TAK" : "NIE"));
+                System.out.println("---------------------------------------------");
+            }
+
+            System.out.println("Finalna dokladnosc: " + (Math.round((goodAnswares / dataLength) * 10000.0) / 100.0) + "%");
+            System.out.println("---------------------------------------------");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String interpretation(int i) { return resOptions[i]; }
 }
