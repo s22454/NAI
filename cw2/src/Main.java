@@ -40,7 +40,6 @@ public class Main {
 
 
             //user input vectors
-            System.out.println("---------------------------------------------");
             System.out.print("Czy chcesz podac wlasny wektor (y - tak, n - nie): ");
             String yesOrNo = scanner.nextLine();
 
