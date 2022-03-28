@@ -11,26 +11,31 @@ public class Main {
             learningConstant = Double.parseDouble(scanner.nextLine());
 
             Double threshold;
-            System.out.print("\nPodaj prog aktywacji: ");
+            System.out.print("Podaj prog aktywacji: ");
             threshold = Double.parseDouble(scanner.nextLine());
 
             //learning data
             String trainingPath;
-            System.out.print("\nPodaj sciezke do pliku z danymi treningowymi: ");
+            System.out.print("Podaj sciezke do pliku z danymi treningowymi: ");
             trainingPath = scanner.nextLine();
 
             double accuracy;
-            System.out.print("\nPodaj docelowa dokladnosc: ");
+            System.out.print("Podaj docelowa dokladnosc: ");
             accuracy = Double.parseDouble(scanner.nextLine());
 
             //creating and training perceptron
+            System.out.println("\n");
+            System.out.println("---------------------------------------------");
+            System.out.println("ROZPOCZYNANIE TRENOWANIA PERCEPTRONU");
+            System.out.println("---------------------------------------------");
             Perceptron p = new Perceptron(learningConstant, threshold);
+            p.train(trainingPath,accuracy);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        //"data_for_perceptron/iris_perceptron/test.txt"
+        //"data_for_perceptron/iris_perceptron/training.txt"
     }
 }

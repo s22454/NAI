@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,6 +21,7 @@ public class Perceptron {
     public void train(String path, double accuracyGoal){
         double accuracy = 0.0;
         int goodAnswares;
+        int vectorLength = 0;
 
         try (Scanner scanner = new Scanner(new File(path))){
             data        = new HashMap<>();
@@ -38,6 +38,9 @@ public class Perceptron {
 
                 data.put(tmpArr, tmp[tmp.length - 1]);
 
+                if (vectorLength == 0)
+                    vectorLength = tmpArr.length;
+
                 //result options tab init
                 if (resOptions[0] == null)
                     resOptions[0] = tmp[tmp.length - 1];
@@ -49,18 +52,32 @@ public class Perceptron {
         }
 
         //wieghts init
-        wieghts = new double[data.get(data.keySet().toArray()[0]).length()];
+        wieghts = new double[vectorLength];
         Random r = new Random();
         for (int i = 0; i < wieghts.length; i++)
             wieghts[i] = r.nextDouble();
 
         //learning
         int i = 1;
-        while(accuracy != accuracyGoal){
+        while(accuracy < accuracyGoal){
             goodAnswares = learn();
             accuracy = goodAnswares / (double) data.size();
             System.out.println("Przejscie " + i + " dokladnosc - " + (double) (Math.round(accuracy * 10000) / 100) + "%");
+            i++;
         }
+
+        //show perceptron data on console
+        System.out.println("\n---------------------------------------------");
+        System.out.println("UDALO SIE WYTRENOWAC PERCEPTRON");
+        System.out.println("---------------------------------------------");
+        System.out.println("Stala uczenia sie: " + learningConstant);
+        System.out.println("Prog aktywacji: " + threshold);
+        System.out.println("Wartosci wag: ");
+        for (int j = 0; j < wieghts.length; j++)
+            System.out.println("W" + (j + 1) + " - " + wieghts[j]);
+        System.out.println("Finalna dokladnosc: " + (double) (Math.round(accuracy * 10000) / 100) + "%");
+        System.out.println("Ilosc przejsc potrzebna do nauczenia: " + i);
+        System.out.println("---------------------------------------------");
     }
 
     private int learn(){
@@ -74,7 +91,7 @@ public class Perceptron {
                 goodAnswares++;
 
             for (int i = 0; i < wieghts.length; i++){
-                wieghts[i] += (res - expectedRes) * learningConstant * tab[i];
+                wieghts[i] += (expectedRes - res) * learningConstant * tab[i];
             }
         }
 
