@@ -64,10 +64,32 @@ public class Perceptron {
     }
 
     private int learn(){
+        int goodAnswares = 0;
 
+        for (Double[] tab : data.keySet()){
+            int res             = process(tab);
+            int expectedRes     = (data.get(tab).equals(resOptions[0])) ? 0 : 1;
+
+            if (res == expectedRes)
+                goodAnswares++;
+
+            for (int i = 0; i < wieghts.length; i++){
+                wieghts[i] += (res - expectedRes) * learningConstant * tab[i];
+            }
+        }
+
+        return goodAnswares;
     }
 
-    private int process(ArrayList<Double> data){
+    private int process(Double[] data){
+        double sum = 0;
 
+        for (int i = 0; i < wieghts.length; i++)
+            sum += wieghts[i] * data[i];
+
+        if (sum > threshold)
+            return 1;
+        else
+            return 0;
     }
 }
