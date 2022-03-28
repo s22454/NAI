@@ -62,7 +62,7 @@ public class Perceptron {
         while(accuracy < accuracyGoal){
             goodAnswares = learn();
             accuracy = goodAnswares / (double) data.size();
-            System.out.println("Przejscie " + i + " dokladnosc - " + (double) (Math.round(accuracy * 10000) / 100) + "%");
+            System.out.println("Przejscie " + i + " dokladnosc - " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
             i++;
         }
 
@@ -75,7 +75,7 @@ public class Perceptron {
         System.out.println("Wartosci wag: ");
         for (int j = 0; j < wieghts.length; j++)
             System.out.println("W" + (j + 1) + " - " + wieghts[j]);
-        System.out.println("Finalna dokladnosc: " + (double) (Math.round(accuracy * 10000) / 100) + "%");
+        System.out.println("Finalna dokladnosc: " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
         System.out.println("Ilosc przejsc potrzebna do nauczenia: " + i);
         System.out.println("---------------------------------------------");
     }
