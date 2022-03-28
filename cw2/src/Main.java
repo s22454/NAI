@@ -25,7 +25,7 @@ public class Main {
 
             //creating and training perceptron
             Perceptron p = new Perceptron(learningConstant, threshold);
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }
