@@ -64,6 +64,10 @@ public class Main {
 
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (IllegalStateException e){
+            System.out.println("\n---------------------------------------------------------------------------------------");
+            System.out.println("Perceptron nie byl w stanie osiagnac docelowej dokladnosci w akceptowalnym czasie!");
+            System.out.println("---------------------------------------------------------------------------------------");
         } catch (Exception e){
             System.out.println("Podano nieprawidlowe dane!");
         }
@@ -72,5 +76,6 @@ public class Main {
         System.out.println("KONIEC PRACY!");
         System.out.println("---------------------------------------------");
         //"data_for_perceptron/iris_perceptron/training.txt"
+        //"data_for_perceptron/example1/train.txt"
     }
 }

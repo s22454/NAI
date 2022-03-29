@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Perceptron {
 
-    private HashMap<Double[],String>   data;
+    private HashMap<Double[],String> data;
     private String[]    resOptions;
     private double[]    wieghts;
     private double      learningConstant;
@@ -18,9 +18,9 @@ public class Perceptron {
         this.threshold          = threshold;
     }
 
-    public void train(String path, double accuracyGoal) throws ArrayIndexOutOfBoundsException{
-        double accuracy = 0.0;
-        int goodAnswares;
+    public String interpretation(int i) { return resOptions[i]; }
+
+    public int dataInit(String path){
         int vectorLength = 0;
 
         try (Scanner scanner = new Scanner(new File(path))){
@@ -51,6 +51,16 @@ public class Perceptron {
             e.printStackTrace();
         }
 
+        return vectorLength;
+    }
+
+    public void train(String path, double accuracyGoal) throws ArrayIndexOutOfBoundsException{
+        double accuracy = 0.0;
+        double goodAnswares;
+
+        //initialize data
+        int vectorLength = dataInit(path);
+
         //wieghts init
         wieghts = new double[vectorLength];
         Random r = new Random();
@@ -60,7 +70,9 @@ public class Perceptron {
         //learning
         int i = 1;
         while(accuracy < accuracyGoal){
-            goodAnswares = learn();
+            if (i > 1000000)
+                throw new IllegalStateException();
+            goodAnswares = train();
             accuracy = goodAnswares / (double) data.size();
             System.out.println("Przejscie " + i + " dokladnosc: " + (Math.round(accuracy * 10000.0) / 100.0) + "%");
             i++;
@@ -80,7 +92,7 @@ public class Perceptron {
         System.out.println("---------------------------------------------");
     }
 
-    private int learn(){
+    private int train(){
         int goodAnswares = 0;
 
         for (Double[] tab : data.keySet()){
@@ -91,7 +103,7 @@ public class Perceptron {
                 goodAnswares++;
 
             for (int i = 0; i < wieghts.length; i++){
-                wieghts[i] += (expectedRes - res) * learningConstant * tab[i];
+                wieghts[i] += ((expectedRes - res) * learningConstant * tab[i]);
             }
         }
 
@@ -114,38 +126,28 @@ public class Perceptron {
     }
 
     public void test(String path) throws NullPointerException{
-        double goodAnswares    = 0;
-        double dataLength      = 0;
+        double goodAnswares = 0.0;
 
-        try(Scanner scanner = new Scanner(new File(path))) {
-            while (scanner.hasNext()){
-                String rowData = scanner.nextLine();
-                String[] cells = rowData.split(",");
-                Double[] dataTab = new Double[wieghts.length];
-                dataLength++;
+        int newDataVectorLength = dataInit(path);
 
-                if (cells.length != (wieghts.length + 1))
+        if (newDataVectorLength != wieghts.length)
                     throw new NullPointerException();
 
-                for (int i = 0; i < cells.length - 1; i++)
-                    dataTab[i] = Double.parseDouble(cells[i]);
+        for (Double[] tab : data.keySet()){
+            int ans = process(tab);
+            if (resOptions[ans].equals(data.get(tab))) goodAnswares++;
 
-                int ans = process(dataTab);
-                if (resOptions[ans].equals(cells[cells.length - 1])) goodAnswares++;
-
-                System.out.println("Testowanie: " + rowData);
-                System.out.println("Odpowiedz poprawna: " + cells[cells.length - 1]);
-                System.out.println("Odpowiedz perceptronu: " + resOptions[ans]);
-                System.out.println("Czy byla poprawna: " + ((resOptions[ans].equals(cells[cells.length - 1])) ? "TAK" : "NIE"));
-                System.out.println("---------------------------------------------");
-            }
-
-            System.out.println("Finalna dokladnosc: " + (Math.round((goodAnswares / dataLength) * 10000.0) / 100.0) + "%");
+            System.out.print("Testowanie: ");
+            for (Double d : tab)
+                System.out.print(d + " ");
+            System.out.print(data.get(tab));
+            System.out.println("\nOdpowiedz poprawna: " + data.get(tab));
+            System.out.println("Odpowiedz perceptronu: " + resOptions[ans]);
+            System.out.println("Czy byla poprawna: " + ((resOptions[ans].equals(data.get(tab))) ? "TAK" : "NIE"));
             System.out.println("---------------------------------------------");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
-    }
 
-    public String interpretation(int i) { return resOptions[i]; }
+        System.out.println("Finalna dokladnosc: " + (Math.round((goodAnswares / (double) data.size()) * 10000.0) / 100.0) + "%");
+        System.out.println("---------------------------------------------");
+    }
 }
