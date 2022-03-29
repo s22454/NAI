@@ -1,0 +1,17 @@
+NAI
+Projekt 3: 1-warstwowa sieć neuronowa
+
+Zaimplementuj 1-warstwową sieć neuronową, która rozpoznaje w jakim języku jest
+napisany dany tekst. Program ma działać dla dowolnej(nieznanej) liczby języków.
+
+Wektor wejściowy składa się z 26 elementów. Każda współrzędna jest reprezentacją proporcji występowania w tekście jedenj z liter alfabetu (tylko ascii). Sieć powinna posiadać tyle neuronów ile jest języków. Ich liczba powinna być rozpoznawana na podstawie zbioru treningowego.
+
+Do obliczenia wyjścia wykorzystaj selektor maximum. Wektor wag oraz wejścia można
+znormalizować.
+
+
+Utwórz zbiór testowy i treningowy (np z artykułów z Wikipedii) składający się z kilkunastu plików w różnych językach. Każdy plik powinien być
+przechowywany w folderze, którego nazwa reprezentuje język (pl, en, de...), tak aby
+program mógł automatycznie rozpoznać ile jest języków. Program dla każdego pliku w
+zbiorze testowym podaje w jakim jest napisany języku. Oprócz tego powinien umożliwiać
+użytkownikowi wprowadzenie własnego tekstu.

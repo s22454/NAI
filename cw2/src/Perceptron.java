@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Perceptron {
 
@@ -24,8 +25,7 @@ public class Perceptron {
         int vectorLength = 0;
 
         try (Scanner scanner = new Scanner(new File(path))){
-            data        = new HashMap<>();
-            resOptions  = new String[2];
+            data = new HashMap<>();
             String[] tmp;
 
             //importing data
@@ -40,12 +40,6 @@ public class Perceptron {
 
                 if (vectorLength == 0)
                     vectorLength = tmpArr.length;
-
-                //result options tab init
-                if (resOptions[0] == null)
-                    resOptions[0] = tmp[tmp.length - 1];
-                else if (resOptions[1] == null && !tmp[tmp.length - 1].equals(resOptions[0]))
-                    resOptions[1] = tmp[tmp.length - 1];
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -55,6 +49,7 @@ public class Perceptron {
     }
 
     public void train(String path, double accuracyGoal) throws ArrayIndexOutOfBoundsException{
+        resOptions  = new String[2];
         double accuracy = 0.0;
         double goodAnswares;
 
@@ -66,6 +61,12 @@ public class Perceptron {
         Random r = new Random();
         for (int i = 0; i < wieghts.length; i++)
             wieghts[i] = r.nextDouble();
+
+        //resOptions init
+        for (String s : data.values().stream().distinct().toList()) {
+            if (resOptions[0] == null) resOptions[0] = s;
+            else resOptions[1] = s;
+        }
 
         //learning
         int i = 1;

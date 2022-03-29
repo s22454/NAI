@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -45,6 +43,25 @@ public class Main {
 
             System.out.println("\nProcessing ...");
             ai.process(testList, Integer.parseInt(k));
+
+            boolean next = true;
+            while(true){
+                System.out.println("Do you want to add your point (y - yes,n - no): ");
+                String odp = scanner.next();
+                if (odp.equals("n"))
+                    next = false;
+
+                try {
+                    System.out.print("Your V:");
+                    Scanner scanner1 = new Scanner(System.in);
+                    odp = scanner1.nextLine();
+                    ArrayList<String> tmp = new ArrayList<>();
+                    tmp.add(odp);
+                    ai.process(tmp,Integer.parseInt(k));
+                } catch (Exception e){
+                    System.out.println("Niepoprawny format!");
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

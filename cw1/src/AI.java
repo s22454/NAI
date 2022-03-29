@@ -34,7 +34,7 @@ public class AI {
 
             //finding k closest points
             HashMap<ArrayList<Double>,String>   resMap    = new HashMap<>();
-            HashMap<ArrayList<Double>,String> tmpMap        = new HashMap<>(sasiedzi);
+            HashMap<ArrayList<Double>,String>   tmpMap    = new HashMap<>(sasiedzi);
             for (int j = 0 ; j < k; j++){
                ArrayList<Double> minDistance                   = new ArrayList<>();
                double minD                                     = distance(v1,(ArrayList<Double>) tmpMap.keySet().toArray()[0]);
