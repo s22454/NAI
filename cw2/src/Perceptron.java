@@ -100,13 +100,13 @@ public class Perceptron {
             int res             = process(tab);
             int expectedRes     = (data.get(tab).equals(resOptions[0])) ? 0 : 1;
 
-            if (res == expectedRes)
-                goodAnswares++;
-
             for (int i = 0; i < wieghts.length; i++){
                 wieghts[i] += ((expectedRes - res) * learningConstant * tab[i]);
             }
         }
+
+        for (Double[] tab : data.keySet())
+            if (data.get(tab).equals(resOptions[process(tab)])) goodAnswares++;
 
         return goodAnswares;
     }
