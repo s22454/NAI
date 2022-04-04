@@ -1,27 +1,45 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Perceptron {
 
-    private int[]       data;
-    private double[]    wieghts;
-    private double      learningConstant;
-    private double      threshold;
+    private double[]        data;
+    private int             charCount;
+    private double[]        wieghts;
+    private int             generations;
+    private final double    learningConstant;
+    private final double    threshold;
+    private final String    language;
 
-    public Perceptron(double learningConstant, double threshold) throws IOException {
+    public Perceptron(double learningConstant, double threshold, String language){
         this.learningConstant   = learningConstant;
         this.threshold          = threshold;
+        this.language           = language;
+        this.generations        = 0;
+    }
+
+    public void show(){
+        System.out.println("---------------------------------------------");
+        System.out.println("UDALO SIE WYTRENOWAC PERCEPTRON");
+        System.out.println("---------------------------------------------");
+        System.out.println("Jezyk: " + language);
+        System.out.println("Stala uczenia sie: " + learningConstant);
+        System.out.println("Prog aktywacji: " + threshold);
+        System.out.println("Wartosci wag: ");
+        for (int j = 0; j < wieghts.length; j++)
+            System.out.println((char) (j + 97) + " - " + wieghts[j]);
+        System.out.println("Ilosc przejsc potrzebna do nauczenia: " + generations);
+        System.out.println("---------------------------------------------");
     }
 
     public void dataInit(String path){
 
         //data tab init
-        data = new int[26];
+        data        = new double[26];
+        charCount   = 0;
         for (int i = 0; i < 26; i++)
             data[i] = 0;
 
@@ -33,12 +51,39 @@ public class Perceptron {
                 line = scanner.nextLine().toLowerCase(Locale.ROOT);
 
                 for (char c : line.toCharArray())
-                    if (c > 96 && c < 123)
+                    if (c > 96 && c < 123) {
                         data[c - 97]++;
+                        charCount++;
+                    }
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+
+        //changing data from counting table to percentage table
+        for (int i = 0; i < 26; i++)
+            data[i] /= charCount;
+    }
+
+    public void userDataInit(String line){
+        //data tab init
+        data        = new double[26];
+        charCount   = 0;
+        for (int i = 0; i < 26; i++)
+            data[i] = 0;
+
+        //process line
+        line = line.toLowerCase(Locale.ROOT);
+
+        for (char c : line.toCharArray())
+            if (c > 96 && c < 123) {
+                data[c - 97]++;
+                charCount++;
+            }
+
+        //changing data from counting table to percentage table
+        for (int i = 0; i < 26; i++)
+            data[i] /= charCount;
     }
 
     public void train() throws ArrayIndexOutOfBoundsException{
@@ -52,30 +97,19 @@ public class Perceptron {
         //learning
         int i = 0;
         int goodAnsware = 0;
-        while(goodAnsware < 10){ //10 times in a row it has to get a good answare
+        while(goodAnsware != 1){
 
             //call an exception if it has repeted more ten 1000000 times
             if (i > 1000000)
                 throw new IllegalStateException();
 
-            //modify goodansware if res was good or bring it to 0 if not
-            goodAnsware = (train2()) ? goodAnsware + 1 : 0;
+            //modify goodansware if res was good
+            goodAnsware = (train2()) ? 1 : 0;
 
-            System.out.println("Przejscie " + i + " ilosc poprawnych pod rzad: " + goodAnsware);
+//            System.out.println("Przejscie " + (i + 1) + " ilosc poprawnych pod rzad: " + goodAnsware);
             i++;
+            generations++;
         }
-
-        //show perceptron data on console
-        System.out.println("\n---------------------------------------------");
-        System.out.println("UDALO SIE WYTRENOWAC PERCEPTRON");
-        System.out.println("---------------------------------------------");
-        System.out.println("Stala uczenia sie: " + learningConstant);
-        System.out.println("Prog aktywacji: " + threshold);
-        System.out.println("Wartosci wag: ");
-        for (int j = 0; j < wieghts.length; j++)
-            System.out.println((char) (j + 97) + " - " + wieghts[j]);
-        System.out.println("Ilosc przejsc potrzebna do nauczenia: " + (i - 1));
-        System.out.println("---------------------------------------------");
     }
 
     private boolean train2(){
@@ -104,4 +138,11 @@ public class Perceptron {
         dataInit(path);
         return process() == 1;
     }
+
+    public boolean testUserInput(String line){
+        userDataInit(line);
+        return process() == 1;
+    }
+
+    public String getLanguage(){ return language; }
 }
