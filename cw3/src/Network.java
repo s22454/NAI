@@ -12,10 +12,13 @@ public class Network {
         for (int i = 0; i < perceptrons.length; i++){
             perceptrons[i] = new Perceptron(2,50,fileList[i].getName());
 
-            File[] samples = fileList[i].listFiles();
-            for (File f : samples){
-                perceptrons[i].dataInit(f.getPath());
-                perceptrons[i].train();
+            for (int j = 0; j < fileList.length; j++){
+                File[] samples = fileList[j].listFiles();
+
+                for (File f : samples){
+                    perceptrons[i].dataInit(f.getPath());
+                    perceptrons[i].train(j == i);
+                }
             }
 
             perceptrons[i].show();

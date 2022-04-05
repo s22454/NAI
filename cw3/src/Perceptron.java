@@ -19,6 +19,12 @@ public class Perceptron {
         this.threshold          = threshold;
         this.language           = language;
         this.generations        = 0;
+
+        //wieghts init
+        wieghts = new double[26];
+        Random r = new Random();
+        for (int i = 0; i < wieghts.length; i++)
+            wieghts[i] = r.nextDouble();
     }
 
     public void show(){
@@ -86,13 +92,7 @@ public class Perceptron {
             data[i] /= charCount;
     }
 
-    public void train() throws ArrayIndexOutOfBoundsException{
-
-        //wieghts init
-        wieghts = new double[26];
-        Random r = new Random();
-        for (int i = 0; i < wieghts.length; i++)
-            wieghts[i] = r.nextDouble();
+    public void train(boolean correct) throws ArrayIndexOutOfBoundsException{
 
         //learning
         int i = 0;
@@ -104,7 +104,7 @@ public class Perceptron {
                 throw new IllegalStateException();
 
             //modify goodansware if res was good
-            goodAnsware = (train2()) ? 1 : 0;
+            goodAnsware = (train2(correct)) ? 1 : 0;
 
 //            System.out.println("Przejscie " + (i + 1) + " ilosc poprawnych pod rzad: " + goodAnsware);
             i++;
@@ -112,14 +112,14 @@ public class Perceptron {
         }
     }
 
-    private boolean train2(){
+    private boolean train2(boolean correct){
         int res = process();
 
         for (int i = 0; i < wieghts.length; i++){
-            wieghts[i] += ((1 - res) * learningConstant * data[i]);
+            wieghts[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
         }
 
-        return res == 1;
+        return res == ((correct) ? 1 : 0);
     }
 
     public int process() throws NullPointerException{
