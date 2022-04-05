@@ -8,6 +8,7 @@ public class Main {
         System.out.println("---------------------------------------------");
 
         Network network = new Network(new File("./train"));
+        System.out.println("---------------------------------------------");
         System.out.println("KONIEC UCZENIA");
 
         try (Scanner scanner = new Scanner(System.in)) {

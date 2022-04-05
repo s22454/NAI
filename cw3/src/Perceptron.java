@@ -38,7 +38,7 @@ public class Perceptron {
         for (int j = 0; j < wieghts.length; j++)
             System.out.println((char) (j + 97) + " - " + wieghts[j]);
         System.out.println("Ilosc przejsc potrzebna do nauczenia: " + generations);
-        System.out.println("---------------------------------------------");
+
     }
 
     public void dataInit(String path){
