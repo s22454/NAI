@@ -26,18 +26,30 @@ public class Network {
     }
 
     public String test (String testFile){
-        for (int i = 0; i < perceptrons.length; i++)
-            if (perceptrons[i].test(testFile))
-                return perceptrons[i].getLanguage();
+        double max  = 0;
+        int iMax    = 0;
 
-        return "Zaden jezyk nie pasuje!";
+        for (int i = 0; i < perceptrons.length; i++) {
+            if (perceptrons[i].test(testFile) > max){
+                max     = perceptrons[i].test(testFile);
+                iMax    = i;
+            }
+        }
+
+        return "Jezyk tekstu to: " + perceptrons[iMax].getLanguage();
     }
 
     public String userTest (String line){
-        for (int i = 0; i < perceptrons.length; i++)
-            if (perceptrons[i].testUserInput(line))
-                return perceptrons[i].getLanguage();
+        double max = 0;
+        int iMax = 0;
 
-        return "Zaden jezyk nie pasuje!";
+        for (int i = 0; i < perceptrons.length; i++){
+            if (perceptrons[i].testUserInput(line) > max){
+                max = perceptrons[i].testUserInput(line);
+                iMax = i;
+            }
+        }
+
+        return "Jezyk tekstu to: " + perceptrons[iMax].getLanguage();
     }
 }

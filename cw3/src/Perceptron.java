@@ -11,7 +11,7 @@ public class Perceptron {
     private double[]        wieghts;
     private int             generations;
     private final double    learningConstant;
-    private final double    threshold;
+    private double    threshold;
     private final String    language;
 
     public Perceptron(double learningConstant, double threshold, String language){
@@ -113,35 +113,39 @@ public class Perceptron {
     }
 
     private boolean train2(boolean correct){
-        int res = process();
+        int res = (process() > threshold) ? 1 : 0;
 
         for (int i = 0; i < wieghts.length; i++){
             wieghts[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
+//            threshold += (((correct) ? 1 : 0) - res) * learningConstant * (-1);
         }
 
         return res == ((correct) ? 1 : 0);
     }
 
-    public int process() throws NullPointerException{
+    public double process() throws NullPointerException{
         double sum = 0;
 
         for (int i = 0; i < 26; i++)
             sum += wieghts[i] * data[i];
 
-        if (sum > threshold)
-            return 1;
-        else
-            return 0;
+//        if (sum > threshold)
+//            return 1;
+//        else
+//            return 0;
+
+//        return sum - threshold;
+        return sum;
     }
 
-    public boolean test(String path) throws NullPointerException{
+    public double test(String path) throws NullPointerException{
         dataInit(path);
-        return process() == 1;
+        return process();
     }
 
-    public boolean testUserInput(String line){
+    public double testUserInput(String line){
         userDataInit(line);
-        return process() == 1;
+        return process();
     }
 
     public String getLanguage(){ return language; }
