@@ -11,12 +11,10 @@ public class Perceptron {
     private double[]        wieghts;
     private int             generations;
     private final double    learningConstant;
-//    private double          threshold;
     private final String    language;
 
     public Perceptron(double learningConstant, double threshold, String language){
         this.learningConstant   = learningConstant;
-//        this.threshold          = threshold;
         this.language           = language;
         this.generations        = 0;
 
@@ -111,7 +109,6 @@ public class Perceptron {
             //modify goodansware if res was good
             goodAnsware = (train2(correct)) ? 1 : 0;
 
-//            System.out.println("Przejscie " + (i + 1) + " ilosc poprawnych pod rzad: " + goodAnsware);
             i++;
             generations++;
         }
@@ -134,12 +131,6 @@ public class Perceptron {
         for (int i = 0; i < 26; i++)
             sum += wieghts[i] * data[i];
 
-//        if (sum > threshold)
-//            return 1;
-//        else
-//            return 0;
-
-//        return sum - threshold;
         return sum;
     }
 
