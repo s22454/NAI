@@ -11,20 +11,22 @@ public class Perceptron {
     private double[]        wieghts;
     private int             generations;
     private final double    learningConstant;
-    private double    threshold;
+//    private double          threshold;
     private final String    language;
 
     public Perceptron(double learningConstant, double threshold, String language){
         this.learningConstant   = learningConstant;
-        this.threshold          = threshold;
+//        this.threshold          = threshold;
         this.language           = language;
         this.generations        = 0;
 
         //wieghts init
-        wieghts = new double[26];
+        wieghts = new double[27];
         Random r = new Random();
-        for (int i = 0; i < wieghts.length; i++)
+        for (int i = 0; i < wieghts.length - 1; i++)
             wieghts[i] = r.nextDouble();
+
+        wieghts[wieghts.length - 1] = threshold;
     }
 
     public void show(){
@@ -33,9 +35,9 @@ public class Perceptron {
         System.out.println("---------------------------------------------");
         System.out.println("Jezyk: " + language);
         System.out.println("Stala uczenia sie: " + learningConstant);
-        System.out.println("Prog aktywacji: " + threshold);
+        System.out.println("Prog aktywacji: " + wieghts[wieghts.length - 1]);
         System.out.println("Wartosci wag: ");
-        for (int j = 0; j < wieghts.length; j++)
+        for (int j = 0; j < wieghts.length - 1; j++)
             System.out.println((char) (j + 97) + " - " + wieghts[j]);
         System.out.println("Ilosc przejsc potrzebna do nauczenia: " + generations);
 
@@ -44,10 +46,12 @@ public class Perceptron {
     public void dataInit(String path){
 
         //data tab init
-        data        = new double[26];
+        data        = new double[27];
         charCount   = 0;
+        data[26]    = -1;
         for (int i = 0; i < 26; i++)
             data[i] = 0;
+
 
         //process file
         try (Scanner scanner = new Scanner(new File(path))){
@@ -73,8 +77,9 @@ public class Perceptron {
 
     public void userDataInit(String line){
         //data tab init
-        data        = new double[26];
+        data        = new double[27];
         charCount   = 0;
+        data[26]    = -1;
         for (int i = 0; i < 26; i++)
             data[i] = 0;
 
@@ -113,7 +118,7 @@ public class Perceptron {
     }
 
     private boolean train2(boolean correct){
-        int res = (process() > threshold) ? 1 : 0;
+        int res = (process() > wieghts[wieghts.length - 1]) ? 1 : 0;
 
         for (int i = 0; i < wieghts.length; i++){
             wieghts[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
