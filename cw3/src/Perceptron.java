@@ -8,8 +8,8 @@ public class Perceptron {
 
     private double[]        data;
     private int             charCount;
-    private double[]        wieghts;
     private int             generations;
+    private final double[]  weights;
     private final double    learningConstant;
     private final String    language;
 
@@ -19,12 +19,12 @@ public class Perceptron {
         this.generations        = 0;
 
         //wieghts init
-        wieghts = new double[27];
+        weights = new double[27];
         Random r = new Random();
-        for (int i = 0; i < wieghts.length - 1; i++)
-            wieghts[i] = r.nextDouble();
+        for (int i = 0; i < weights.length - 1; i++)
+            weights[i] = r.nextDouble();
 
-        wieghts[wieghts.length - 1] = threshold;
+        weights[weights.length - 1] = threshold;
     }
 
     public void show(){
@@ -33,10 +33,10 @@ public class Perceptron {
         System.out.println("---------------------------------------------");
         System.out.println("Jezyk: " + language);
         System.out.println("Stala uczenia sie: " + learningConstant);
-        System.out.println("Prog aktywacji: " + wieghts[wieghts.length - 1]);
+        System.out.println("Prog aktywacji: " + weights[weights.length - 1]);
         System.out.println("Wartosci wag: ");
-        for (int j = 0; j < wieghts.length - 1; j++)
-            System.out.println((char) (j + 97) + " - " + wieghts[j]);
+        for (int j = 0; j < weights.length - 1; j++)
+            System.out.println((char) (j + 97) + " - " + weights[j]);
         System.out.println("Ilosc przejsc potrzebna do nauczenia: " + generations);
 
     }
@@ -115,10 +115,10 @@ public class Perceptron {
     }
 
     private boolean train2(boolean correct){
-        int res = (process() > wieghts[wieghts.length - 1]) ? 1 : 0;
+        int res = (process() > weights[weights.length - 1]) ? 1 : 0;
 
-        for (int i = 0; i < wieghts.length; i++){
-            wieghts[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
+        for (int i = 0; i < weights.length; i++){
+            weights[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
 //            threshold += (((correct) ? 1 : 0) - res) * learningConstant * (-1);
         }
 
@@ -129,7 +129,7 @@ public class Perceptron {
         double sum = 0;
 
         for (int i = 0; i < 26; i++)
-            sum += wieghts[i] * data[i];
+            sum += weights[i] * data[i];
 
         return sum;
     }
