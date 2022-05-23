@@ -7,8 +7,12 @@ import java.util.Scanner;
 public class DataReader {
     public static HashMap<ArrayList<String>,String> read(String path) throws IOException {
 
-        Scanner scanner = new Scanner(new File(path));
+        File file = new File(path);
+        Scanner scanner = new Scanner(file);
         HashMap<ArrayList<String>,String> res = new HashMap<>();
+
+        if (!file.getName().endsWith(".txt"))
+            throw new IOException();
 
         while (scanner.hasNextLine()){
 
