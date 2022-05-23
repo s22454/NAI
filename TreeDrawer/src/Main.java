@@ -1,13 +1,9 @@
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
@@ -34,7 +30,7 @@ public class Main extends Application {
         Scene initScene = new Scene(pathEntryPane,520,30);
         //-----------------------
 
-        
+
         //tree scene
         Scene treeScene = new Scene(new Label("lol"),800,800);
         //-----------------------
