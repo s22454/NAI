@@ -11,6 +11,8 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Main extends Application {
 
@@ -69,14 +71,23 @@ public class Main extends Application {
         pathEntryButton.setOnAction(e -> {
 
             boolean doesEverythingWentRight = true;
+            ArrayList<ArrayList<String>> data = new ArrayList<>();
 
             try {
-                DataReader.read(pathEntryTextField.getText());
+                data = DataReader.read(pathEntryTextField.getText());
             } catch (IOException ex) {
                 doesEverythingWentRight = false;
             }
 
-            if (doesEverythingWentRight) {
+            if (doesEverythingWentRight) { //creating a tree
+
+                String[][] dataAsTable = new String[data.size()][data.get(0).size()];
+                for (int i = 0; i < data.size(); i++)
+                    for (int j = 0; j < data.get(0).size(); j++)
+                        dataAsTable[i][j] = data.get(i).get(j);
+
+
+
                 primaryStage.setScene(treeScene);
                 primaryStage.centerOnScreen();
             }else{
