@@ -27,7 +27,7 @@ public class DataNode {
 
         ArrayList<String> optionsInCategory = new ArrayList<>();
         for (int i = 1; i < data.length; i++){
-            
+
         }
     }
 }
