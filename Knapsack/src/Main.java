@@ -74,6 +74,16 @@ public class Main {
         return totalValue;
     }
 
+    public int getVolume(int[] vector){
+        int totalVolume = 0;
+
+        for (int i = 0; i < items.size(); i++){
+            totalVolume += items.get(i)[0] * vector[i];
+        }
+
+        return totalVolume;
+    }
+
     public static String msToTime(long ms){
         StringBuilder stringBuilder = new StringBuilder();
         int min;
@@ -110,5 +120,8 @@ public class Main {
 
         for (int i : tmp)
             System.out.print(i);
+
+        System.out.println("\nCałkowita wartość: " + main.getVal(tmp));
+        System.out.println("Całkowita waga: " + main.getVolume(tmp));
     }
 }

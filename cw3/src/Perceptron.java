@@ -18,13 +18,13 @@ public class Perceptron {
         this.language           = language;
         this.generations        = 0;
 
-        //wieghts init
+        //weights init
         weights = new double[27];
+        weights[weights.length - 1] = threshold;
         Random r = new Random();
         for (int i = 0; i < weights.length - 1; i++)
             weights[i] = r.nextDouble();
 
-        weights[weights.length - 1] = threshold;
     }
 
     public void show(){
@@ -117,10 +117,9 @@ public class Perceptron {
     private boolean train2(boolean correct){
         int res = (process() > weights[weights.length - 1]) ? 1 : 0;
 
-        for (int i = 0; i < weights.length; i++){
+        for (int i = 0; i < weights.length; i++)
             weights[i] += ((((correct) ? 1 : 0) - res) * learningConstant * data[i]);
-//            threshold += (((correct) ? 1 : 0) - res) * learningConstant * (-1);
-        }
+
 
         return res == ((correct) ? 1 : 0);
     }
